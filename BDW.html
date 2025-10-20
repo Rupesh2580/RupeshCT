@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎂 Happy Birthday!</title>
+<style>
+  /* Frame container around all content */
+  #frame {
+    max-width: 700px;
+    height: 90vh;
+    margin: 20px auto;
+    padding: 30px;
+    border: 8px double #3a0060;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fcb69f, #ffecd2);
+    box-shadow: 0 0 30px rgba(58, 0, 96, 0.4);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* centers the text vertically */
+    position: relative;
+  }
+
+  body {
+    margin: 0;
+    background: #fdeff9;
+    font-family: "Poppins", sans-serif;
+    color: #3a0060;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  h1, h2, p {
+    margin: 10px 15px;
+    line-height: 1.5;
+    animation: fadeIn 1s ease;
+  }
+
+  button {
+    padding: 12px 25px;
+    background-color: #fff0f6;
+    border: none;
+    border-radius: 10px;
+    color: #3a0060;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 8px;
+  }
+
+  button:hover {
+    background-color: #ffe2ec;
+  }
+
+  .hidden { display: none; }
+
+  .menu {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .content p {
+    font-size: 20px;
+    max-width: 650px;
+  }
+
+  .balloon {
+    position: absolute;
+    bottom: -100px;
+    border-radius: 50%;
+    width: 50px;
+    height: 70px;
+    opacity: 0.8;
+    animation: floatUp 6s infinite ease-in;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-120vh); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  audio { display: none; }
+</style>
+</head>
+<body>
+  <div id="frame">
+    <div id="step1" class="step">
+      <h1>🎉 Hey! I made something special just for you!</h1>
+      <button onclick="nextStep(2)">Okay!</button>
+      <button onclick="nextStep(3)">Nope 😅</button>
+    </div>
+    <div id="step2" class="step hidden">
+      <h1>Pretty please? 🎂</h1>
+      <button onclick="nextStep(4)">Fine, show me!</button>
+      <button onclick="nextStep(1)">Return</button>
+    </div>
+    <div id="step3" class="step hidden">
+      <h1>No escape today — it’s your birthday! 😆</h1>
+      <button onclick="nextStep(2)">Alright, okay!</button>
+      <button onclick="nextStep(1)">Return</button>
+    </div>
+    <div id="step4" class="step hidden">
+      <h1>Yaaay! Let’s celebrate 🎉</h1>
+      <button onclick="nextStep(5)">Enter the surprise 💖</button>
+      <button onclick="nextStep(1)">Return</button>
+    </div>
+    <div id="step5" class="step hidden content">
+      <h2>Choose your birthday surprise 🎈</h2>
+      <div class="menu">
+        <button onclick="showMessage('love')">💖 Loving Message</button>
+        <button onclick="showMessage('gift')">🎁 Virtual Gift</button>
+        <button onclick="showMessage('memories')">🖼 Memories Photo</button>
+        <button onclick="showMessage('special')">🌟 Special Surprise</button>
+      </div>
+      <div id="surpriseDisplay" class="content"></div>
+      <button onclick="nextStep(1)">Return</button>
+    </div>
+  </div>
+  <script>
+    function nextStep(num) {
+      document.querySelectorAll('.step').forEach(step => step.classList.add('hidden'));
+      document.getElementById('step' + num).classList.remove('hidden');
+      if (num === 5) releaseBalloons();
+      else removeBalloons();
+    }
+
+    function removeBalloons() {
+      const frame = document.getElementById('frame');
+      const balloons = frame.querySelectorAll('.balloon');
+      balloons.forEach(b => b.remove());
+    }
+
+    function releaseBalloons() {
+      removeBalloons();
+      for (let i = 0; i < 20; i++) {
+        let balloon = document.createElement('div');
+        balloon.classList.add('balloon');
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+        balloon.style.animationDelay = Math.random() * 4 + 's';
+        document.getElementById('frame').appendChild(balloon);
+      }
+    }
+
+    function showMessage(type) {
+      const display = document.getElementById('surpriseDisplay');
+      display.style.display = "block";
+      if (type === 'love') {
+        display.innerHTML = `
+          <h2>💖 A Loving Message</h2>
+          <p>Happy Birthday! You are truly amazing — may your heart always stay as bright as your smile. 🎂</p>
+          <p>Sending love, hugs, and good vibes your way on your special day! 💕</p>
+        `;
+      } else if (type === 'gift') {
+        display.innerHTML = `
+          <h2>🎁 Your Virtual Gift!</h2>
+          <img src="https://i.pinimg.com/736x/4a/ad/80/4aad80f4dd370a0f1a2a88fb133ea300.jpg" width="250" alt="Birthday Cake" />
+          <p>Unwrap this moment and let happiness shine through! Wishing you endless joy! 🥳</p>
+        `;
+      } else if (type === 'memories') {
+        display.innerHTML = `
+          <h2>🖼 Sweet Memories</h2>
+          <img src="https://media.giphy.com/media/3o6wrvdHFbwBrUFenu/giphy.gif" width="250" alt="Memories">
+          <p>Cheers to all the wonderful times we've shared — and the many more to come! 🎉</p>
+        `;
+      } else if (type === 'special') {
+        display.innerHTML = `
+          <h2>🌟 Special Surprise!</h2>
+          <p>You're one in a million — today’s all about celebrating YOU! 🌈</p>
+          <p>Wishing your year ahead to be filled with magic, success, and endless smiles! ✨</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
